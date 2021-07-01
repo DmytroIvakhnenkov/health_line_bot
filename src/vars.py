@@ -1,0 +1,3 @@
+# get channel_secret and channel_access_token from your environment variable
+channel_secret = '82d381189ee47816eb20f91ceb82769d'
+channel_access_token = 'H62THGxKU7qatok6aa/KuhazB6YtO3N5cg6Gbecu9rpZo1G80FuPsrOp0wmlJ4Y39fWOcj6BtBG/UF5CfpC8+Tm0Ri1qlU3S/9s9i/cK5Lss/lvBrnME7Wn+2UePLbcP32m7oyjk/2GBx8Xw7HEKuwdB04t89/1O/w1cDnyilFU='
