@@ -23,7 +23,7 @@ ALL_QUESTION_DIR = join(DATABASE_DIR, ALL_QUESTIONS)
 #def generate_next_question(user_id):
 
 def init_repeated_message(func, args):
-    line_bot_api, time_sec = args
+    _, _,time_sec = args
     srqta_timer = Timer(
         time_sec,
         func,
@@ -31,29 +31,29 @@ def init_repeated_message(func, args):
     srqta_timer.start()
 
 
-def send_random_question_to_all(line_bot_api, time_sec):
-    print('\nInside send_random_question_to_all!!!!\n')
+def send_random_question(line_bot_api, user_id, time_sec):
+    print(f'\t send_random_question to {user_id}')
     init_qa = pd.read_csv(ALL_QUESTION_DIR)
-    users = pd.read_csv(USERID_DATABASE_PATH)
+    #users = pd.read_csv(USERID_DATABASE_PATH)
     
     idx = np.random.randint(len(init_qa))
-    print(init_qa.iloc[idx].values)
+    #print(init_qa.iloc[idx].values)
     
     question, answers = init_qa.iloc[idx].values[:2]
     
-    for user_id in users:
+    #for user_id in users:
         # put question to user database
-        write_userid_answers_csv(
-            user_id, 
-            question, answer='')
-    
-        msg = generate_quick_reply(question, answers)
-        print(msg)
-        line_bot_api.push_message(
-            user_id, 
-            msg)
-            
-        print(user_id, question, answers)
+    write_userid_answers_csv(
+        user_id, 
+        question, answer='')
+
+    msg = generate_quick_reply(question, answers)
+    #print(msg)
+    line_bot_api.push_message(
+        user_id, 
+        msg)
+        
+    #print(user_id, question, answers)
 
     #init_repeated_message(time_sec, line_bot_api, send_random_question_to_all)
 
@@ -163,3 +163,8 @@ def generate_quick_reply(question, answers):
                                    quick_reply=QuickReply(items=my_items))
     
     return text_message
+    
+    
+def generate_new_user(user_id):
+    save_userid_to_csv(user_id)
+    create_userid_answers_csv(user_id)

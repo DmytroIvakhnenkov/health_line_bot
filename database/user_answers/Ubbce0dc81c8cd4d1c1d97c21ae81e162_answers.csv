@@ -1,14 +1,9 @@
 questions,answers
-What is your age?,C
-What is your weight?,V
-What is your height?,G
-Do you smoke?,B
-Do you consume alcohol?,C
-If you have any heath conditions please write them down. We will use them to adjust our predictions.,H
-What we can help with?,G
-How many people do you help achieve a better life? (A reflection of your altruism or selflessness (see the TED video from Matthieu Ricard 'How to let altruism be your guide') e.g.: caring for your family actively supporting a friend mentoring coaching developing or promoting a co-worker ... Over a period of 12 months.),
-Were any of the beverages soft drinks such as cola root beer or ginger ale?,
-Do you like your job?,
-Do you use pillow while sleeping?,
-Do you skip meals and snack instead on most days? ,
-How often do you engage yourself in the activities that make you feel happy?,
+What is your age?,H
+What is your weight?,J
+What is your height?,J
+Do you smoke?,K
+Do you consume alcohol?,K
+If you have any heath conditions please write them down. We will use them to adjust our predictions.,K
+What we can help with?,weight-gain
+In the last 7 days did you prepare any meals with meat poultry or seafood?,

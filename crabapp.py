@@ -28,7 +28,9 @@ app = Flask(__name__)
 line_bot_api = LineBotApi(channel_access_token)
 handler = WebhookHandler(channel_secret)
 # This will help to distinguish between init/default use 
-APP_MODE = 'init' # 'init', 'default', 'waiting'
+#APP_MODE = 'init' # 'init', 'default', 'waiting'
+
+USERS_MODES = {}
 #============================================================
 
 #
@@ -56,42 +58,29 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def message_text(event):
     global APP_MODE
-    print(event.source.user_id)
+    
+    user_id = event.source.user_id
     message = event.message.text
     
-    print(event)
-    user = line_bot_api.get_profile(event.source.user_id)
-    print('\tAPP_MODE -',APP_MODE)
-    if message == 'start':
-        user_id = event.source.user_id
-        
-        save_userid_to_csv(user_id)
-        create_userid_answers_csv(user_id)
-        run_initial_questions(
-                line_bot_api, 
-                user_id)
-                
-        APP_MODE = 'init'
-
-    elif APP_MODE == 'init':
-        print('\tinit')
-        user_id = event.source.user_id
-        
-        new_mode = save_init_reply(line_bot_api, 
-                        user_id, 
-                        message)
+    if user_id not in USERS_MODES.keys():
+        if message == 'start':
+            generate_new_user(user_id)
+            run_initial_questions(line_bot_api, user_id)
+            USERS_MODES[user_id] = 'init'
+            
+    elif USERS_MODES[user_id] == 'init':
+        new_mode = save_init_reply(
+            line_bot_api, 
+            user_id, 
+            message)
         if new_mode:
-            APP_MODE = new_mode
-    elif APP_MODE == 'waiting':
-        # check 
-        print(message.text)
-        print('\t waiting')
-        APP_MODE = 'default'
+            USERS_MODES[user_id] = new_mode
     
-    else:
-        print('\tELSE')
-        #print(message)
+    elif USERS_MODES[user_id] == 'waiting':
+        print(message)
         
+    else:
+        print('ERROR!!!!')
 
 
 class PushMesseging(Thread):
@@ -101,7 +90,7 @@ class PushMesseging(Thread):
         self.start()
     
     def run(self):
-        global APP_MODE
+        global USERS_MODES
         # TODO:
         # here we must specify conditions for further questions or notifications.
         print('PushMesseging running...')
@@ -112,12 +101,13 @@ class PushMesseging(Thread):
         time_sec = 10
         
         while True:
-            if APP_MODE == 'default':
-                args = [line_bot_api, time_sec]
-                init_repeated_message(
-                    send_random_question_to_all, args
-                )
-                APP_MODE = 'waiting'
+            for user_id, mode in USERS_MODES.items():
+                if mode == 'default':
+                    args = [line_bot_api, user_id, time_sec]
+                    init_repeated_message(
+                        send_random_question, args
+                    )
+                    USERS_MODES[user_id] = 'waiting'
             else:
                 pass
             time.sleep(1)
