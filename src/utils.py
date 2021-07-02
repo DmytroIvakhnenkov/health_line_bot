@@ -1,7 +1,9 @@
 import csv
 import pandas as pd
+import numpy as np
 from os.path import join
 from datetime import datetime
+from threading import Timer
 
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
@@ -12,12 +14,42 @@ DATABASE_DIR = 'database'
 
 USERID_DATABASE_PATH = join(DATABASE_DIR,'database_users.csv')
 USER_ANSWERS_DIR = join(DATABASE_DIR,'user_answers')
+
+ALL_QUESTIONS = 'database_QA.csv'
 INITIAL_QUESTION_DIR = join(DATABASE_DIR,'database_initial_questions.csv')
+ALL_QUESTION_DIR = join(DATABASE_DIR, ALL_QUESTIONS)
 #============================================================
 
 #def generate_next_question(user_id):
 #def generate_quick_reply(user_id, question, answers_list):
 
+def init_repeated_message(time_sec, line_bot_api, func):
+    args = [line_bot_api, time_sec]
+    srqta_timer = Timer(
+        time_sec,
+        func,
+        args)
+    srqta_timer.start()
+
+
+def send_random_question_to_all(line_bot_api, time_sec ):
+    print('\nInside send_random_question_to_all!!!!\n')
+    init_qa = pd.read_csv(ALL_QUESTION_DIR)
+    users = pd.read_csv(USERID_DATABASE_PATH)
+    
+    idx = np.random.randint(len(init_qa))
+    print(init_qa.iloc[idx].values)
+    
+    question, answers = init_qa.iloc[idx].values[1:]
+    
+    for user_id in users:
+        line_bot_api.push_message(
+            user_id, 
+            TextSendMessage(text=question))
+            
+        print(user_id, question, answers)
+
+    init_repeated_message(time_sec, line_bot_api, send_random_question_to_all)
 
 def save_init_reply(line_bot_api, user_id, msg):
     init_qa = pd.read_csv(INITIAL_QUESTION_DIR)

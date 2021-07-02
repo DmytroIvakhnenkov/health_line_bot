@@ -3,7 +3,7 @@ import sys
 import time
 import csv
 from datetime import datetime
-from threading import Thread
+from threading import Thread, Timer
 
 
 from flask import Flask, request, abort
@@ -89,7 +89,23 @@ class PushMesseging(Thread):
     def run(self):
         # TODO:
         # here we must specify conditions for further questions or notifications.
-        print('HW12')
+        print('PushMesseging running...')
+        
+        # ask random question every 30 sec, but only if previus answered
+        #init_repeated_message()
+        
+        time_sec = 10
+        
+        init_repeated_message(
+            time_sec,
+            line_bot_api,
+            send_random_question_to_all
+        )
+        
+        
+        
+        
+        
     """
         while True:
             time.sleep(7)
