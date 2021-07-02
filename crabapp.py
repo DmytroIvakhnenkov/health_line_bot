@@ -87,7 +87,8 @@ class PushMesseging(Thread):
         self.start()
     
     def run(self):
-        
+        # TODO:
+        # here we must specify conditions for further questions or notifications.
         print('HW12')
     """
         while True:

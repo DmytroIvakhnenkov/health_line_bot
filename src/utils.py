@@ -55,6 +55,7 @@ def run_initial_questions(line_bot_api, user_id):
                     user_id, 
                     TextSendMessage(text=greeting_msg))
     
+    # TODO: fix for multiple choice questions
     question, answers = init_qa.iloc[num_user_answers].values
     
     line_bot_api.push_message(
@@ -64,7 +65,7 @@ def run_initial_questions(line_bot_api, user_id):
   
 def save_userid_to_csv(user_id):
     # save userID
-    
+    # TODO: must be no duplicates for ids in database_users
     now = datetime.now()
     current_time = now.strftime("%d/%m/%Y %H:%M:%S")
     #print(user_id + "\n\n\n")
