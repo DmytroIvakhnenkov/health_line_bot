@@ -23,8 +23,8 @@ ALL_QUESTION_DIR = join(DATABASE_DIR, ALL_QUESTIONS)
 #def generate_next_question(user_id):
 #def generate_quick_reply(user_id, question, answers_list):
 
-def init_repeated_message(time_sec, line_bot_api, func):
-    args = [line_bot_api, time_sec]
+def init_repeated_message(func, args):
+    line_bot_api, time_sec = args
     srqta_timer = Timer(
         time_sec,
         func,
@@ -32,7 +32,7 @@ def init_repeated_message(time_sec, line_bot_api, func):
     srqta_timer.start()
 
 
-def send_random_question_to_all(line_bot_api, time_sec ):
+def send_random_question_to_all(line_bot_api, time_sec):
     print('\nInside send_random_question_to_all!!!!\n')
     init_qa = pd.read_csv(ALL_QUESTION_DIR)
     users = pd.read_csv(USERID_DATABASE_PATH)
@@ -43,15 +43,22 @@ def send_random_question_to_all(line_bot_api, time_sec ):
     question, answers = init_qa.iloc[idx].values[1:]
     
     for user_id in users:
+    # TODO: here must be quick replys
+        # put question to user database
+        write_userid_answers_csv(
+            user_id, 
+            question, answer='')
+    
         line_bot_api.push_message(
             user_id, 
             TextSendMessage(text=question))
             
         print(user_id, question, answers)
 
-    init_repeated_message(time_sec, line_bot_api, send_random_question_to_all)
+    #init_repeated_message(time_sec, line_bot_api, send_random_question_to_all)
 
-def save_init_reply(line_bot_api, user_id, msg):
+
+def save_init_reply(line_bot_api, user_id, msg, APP_MODE):
     init_qa = pd.read_csv(INITIAL_QUESTION_DIR)
     user_an = pd.read_csv(join(USER_ANSWERS_DIR,f'{user_id}_answers.csv'))
     num_user_answers = len(user_an)
@@ -63,6 +70,8 @@ def save_init_reply(line_bot_api, user_id, msg):
     
     if num_user_answers+1 < len(init_qa):
         run_initial_questions(line_bot_api, user_id)
+    else:
+        APP_MODE = 'default'
 
 
 def run_initial_questions(line_bot_api, user_id):
@@ -130,3 +139,19 @@ def write_userid_answers_csv(user_id, question, answer):
     writer = csv.writer(f)
     writer.writerow([question, answer])
     f.close()
+    
+    
+def generate_quick_reply(question, answers):
+
+    # getting the answers to the question
+    answers = answers.split(" / ")
+
+    # generating buttons
+    my_items = []
+    for answer in answers:
+        my_items.append(QuickReplyButton(action=MessageAction(label=answer, text=answer)))
+
+    text_message = TextSendMessage(text=question,
+                                   quick_reply=QuickReply(items=my_items))
+    
+    return text_message

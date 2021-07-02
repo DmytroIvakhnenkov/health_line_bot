@@ -27,8 +27,8 @@ from src.utils import *
 app = Flask(__name__)
 line_bot_api = LineBotApi(channel_access_token)
 handler = WebhookHandler(channel_secret)
-# This will help to distinguish between initial/general use 
-APP_MODE = 'init' # 'general'
+# This will help to distinguish between init/default use 
+APP_MODE = 'init' # 'default'
 #============================================================
 
 #
@@ -62,8 +62,6 @@ def message_text(event):
     user = line_bot_api.get_profile(event.source.user_id)
     
     if message == '\start':
-        print(message)
-        
         user_id = event.source.user_id
         
         save_userid_to_csv(user_id)
@@ -72,12 +70,19 @@ def message_text(event):
                 line_bot_api, 
                 user_id)
     elif APP_MODE == 'init':
-        print(message)
         user_id = event.source.user_id
         
         save_init_reply(line_bot_api, 
                         user_id, 
-                        message)
+                        message.
+                        APP_MODE)
+    elif APP_MODE == 'default':
+        # check 
+        print('default')
+    
+    else:
+        print(message)
+        print('ELSE')
 
 
 class PushMesseging(Thread):
@@ -95,11 +100,9 @@ class PushMesseging(Thread):
         #init_repeated_message()
         
         time_sec = 10
-        
+        args = [line_bot_api, time_sec]
         init_repeated_message(
-            time_sec,
-            line_bot_api,
-            send_random_question_to_all
+            send_random_question_to_all, args
         )
         
         
