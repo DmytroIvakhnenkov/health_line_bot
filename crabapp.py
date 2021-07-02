@@ -21,18 +21,19 @@ from linebot.models import (
 from src.vars import *
 from src.utils import *
 
-#
-# BODY
-#
-# This will help to distinguish between initial/general use 
-APP_MODE = 'init' # 'general'
 
+#============================================================
+# Hyperparameters
 app = Flask(__name__)
 line_bot_api = LineBotApi(channel_access_token)
 handler = WebhookHandler(channel_secret)
+# This will help to distinguish between initial/general use 
+APP_MODE = 'init' # 'general'
+#============================================================
 
-#line_bot_api.push_message('<to>', TextSendMessage(text='Hello World!'))
-
+#
+# BODY
+#
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -77,9 +78,8 @@ def message_text(event):
         save_init_reply(line_bot_api, 
                         user_id, 
                         message)
-        
-        
-            
+
+
 class PushMesseging(Thread):
     def __init__(self):
         Thread.__init__(self)
