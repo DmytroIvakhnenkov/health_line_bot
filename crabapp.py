@@ -28,7 +28,7 @@ app = Flask(__name__)
 line_bot_api = LineBotApi(channel_access_token)
 handler = WebhookHandler(channel_secret)
 # This will help to distinguish between init/default use 
-APP_MODE = 'init' # 'default'
+APP_MODE = 'init' # 'init', 'default', 'waiting'
 #============================================================
 
 #
@@ -55,13 +55,14 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def message_text(event):
+    global APP_MODE
     print(event.source.user_id)
     message = event.message.text
     
     print(event)
     user = line_bot_api.get_profile(event.source.user_id)
-    
-    if message == '\start':
+    print('\tAPP_MODE -',APP_MODE)
+    if message == 'start':
         user_id = event.source.user_id
         
         save_userid_to_csv(user_id)
@@ -69,20 +70,28 @@ def message_text(event):
         run_initial_questions(
                 line_bot_api, 
                 user_id)
+                
+        APP_MODE = 'init'
+
     elif APP_MODE == 'init':
+        print('\tinit')
         user_id = event.source.user_id
         
-        save_init_reply(line_bot_api, 
+        new_mode = save_init_reply(line_bot_api, 
                         user_id, 
-                        message.
-                        APP_MODE)
-    elif APP_MODE == 'default':
+                        message)
+        if new_mode:
+            APP_MODE = new_mode
+    elif APP_MODE == 'waiting':
         # check 
-        print('default')
+        print(message.text)
+        print('\t waiting')
+        APP_MODE = 'default'
     
     else:
-        print(message)
-        print('ELSE')
+        print('\tELSE')
+        #print(message)
+        
 
 
 class PushMesseging(Thread):
@@ -92,6 +101,7 @@ class PushMesseging(Thread):
         self.start()
     
     def run(self):
+        global APP_MODE
         # TODO:
         # here we must specify conditions for further questions or notifications.
         print('PushMesseging running...')
@@ -100,38 +110,20 @@ class PushMesseging(Thread):
         #init_repeated_message()
         
         time_sec = 10
-        args = [line_bot_api, time_sec]
-        init_repeated_message(
-            send_random_question_to_all, args
-        )
         
-        
-        
-        
-        
-    """
         while True:
-            time.sleep(7)
-            
-            user_ids = []
-            
-            with open('reply_message/database_users.csv', 'r') as csvfile:
-                spamreader = csv.reader(csvfile, delimiter=',')
-                for row in spamreader:
-                    user_ids += [row[0]]
-        
-            if user_ids != []:
-                print(user_ids)
-                for user_id in user_ids:
-                    line_bot_api.push_message(
-                        user_id,
-                        TextMessage(text='ur mom gay'))
+            if APP_MODE == 'default':
+                args = [line_bot_api, time_sec]
+                init_repeated_message(
+                    send_random_question_to_all, args
+                )
+                APP_MODE = 'waiting'
             else:
-                print('No user ids')
-            """
+                pass
+            time.sleep(1)
+
 
 if __name__ == "__main__":
-    
     PushMesseging()
     
     app.run(host='0.0.0.0', port=5000, debug=True)

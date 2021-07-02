@@ -39,25 +39,27 @@ def send_random_question_to_all(line_bot_api, time_sec):
     idx = np.random.randint(len(init_qa))
     print(init_qa.iloc[idx].values)
     
-    question, answers = init_qa.iloc[idx].values[:1]
+    question, answers = init_qa.iloc[idx].values[:2]
     
     for user_id in users:
-    # TODO: here must be quick replys
         # put question to user database
         write_userid_answers_csv(
             user_id, 
             question, answer='')
     
+        msg = generate_quick_reply(question, answers)
+        print(msg)
         line_bot_api.push_message(
             user_id, 
-            generate_quick_reply(question, answers))
+            msg)
             
         print(user_id, question, answers)
 
     #init_repeated_message(time_sec, line_bot_api, send_random_question_to_all)
 
 
-def save_init_reply(line_bot_api, user_id, msg, APP_MODE):
+def save_init_reply(line_bot_api, user_id, msg):
+    global APP_MODE
     init_qa = pd.read_csv(INITIAL_QUESTION_DIR)
     user_an = pd.read_csv(join(USER_ANSWERS_DIR,f'{user_id}_answers.csv'))
     num_user_answers = len(user_an)
@@ -68,9 +70,12 @@ def save_init_reply(line_bot_api, user_id, msg, APP_MODE):
     write_userid_answers_csv(user_id, question, answer)
     
     if num_user_answers+1 < len(init_qa):
+        print('Initial questions...')
         run_initial_questions(line_bot_api, user_id)
+        return
     else:
-        APP_MODE = 'default'
+        print('\t Initial questions finish.')
+        return 'default'
 
 
 def run_initial_questions(line_bot_api, user_id):
@@ -95,7 +100,6 @@ def run_initial_questions(line_bot_api, user_id):
                     user_id, 
                     TextSendMessage(text=greeting_msg))
     
-    # TODO: fix for multiple choice questions
     question, answers = init_qa.iloc[num_user_answers].values
 
     if("None" in answers):
@@ -152,8 +156,8 @@ def generate_quick_reply(question, answers):
 
     # generating buttons
     my_items = []
-    for answer in answers:
-        my_items.append(QuickReplyButton(action=MessageAction(label=answer, text=answer)))
+    for i, answer in enumerate(answers):
+        my_items.append(QuickReplyButton(action=MessageAction(label=answer[:20], text=answer)))
 
     text_message = TextSendMessage(text=question,
                                    quick_reply=QuickReply(items=my_items))

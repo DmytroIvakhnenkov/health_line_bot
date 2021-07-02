@@ -1,3 +1,81 @@
-type, question,	answers
-0, How do you feel today?, 	1-10
-1, h?, Yes/No
+question,answers,Frequency (Week)
+How was your day? ,Exhausting / Busy / Productive / Exciting,7
+How do you feel today? ,Sad / Lazy / Happy / Energetic,7
+If feeling happy: What triggered your happiness?,Appraisal from boss / Good news / Time in nature / Had good meal / Achieved your goal / Talked with a friend / Watched a movie,7
+Are you capable of enjoying things right now?,Yes / No,7
+How often do you engage yourself in the activities that make you feel happy?,1 / 2 / 3 / 4 / 5 / 6 / 7 / 8 / 9 / 10,3
+Have you experienced a week or longer of lower-than-usual interest in activities that you usually enjoy (e.g. work exercise or hobbies)? ,1 / 2 / 3 / 4 / 5 / 6 / 7 / 8 / 9 / 10,1
+How often do you talk/meet with your family members?,Once in a day / Twice in a day / Everyday / Weekly / Monthly / Occasionally / Rarely,2
+How hard do you find it to share your emotions to family/friends?,1 / 2 / 3 / 4 / 5 / 6 / 7 / 8 / 9 / 10,3
+How often do you meet your close friends?,Often / Occasionally / Rarely,2
+How bothered have you felt about thoughts that you've let yourself or others down?,Rarely / Sometimes / Very often,2
+How often do you feel no one truly understands you?,1 / 2 / 3 / 4 / 5 / 6 / 7 / 8 / 9 / 10,3
+How grateful are you today?,1 / 2 / 3 / 4 / 5 / 6 / 7 / 8 / 9 / 10 / 11 / 12 / 13 / 14 / 15 / 16 / 17 / 18 / 19 / 20,7
+Over the last two weeks how bothered have you been by feelings of fear or dread as though something terrible might happen?,Rarely / Sometimes / Very often,1
+Currently are you having thoughts of your own death?,Yes / No,2
+Have you experienced such thoughts before? ,Yes / No,2
+What helped you to overcome those emotions? ,Therapy / Going for a walk in nature / Watching Movies / Talk or meet-up with family / Meditation / Counselling / Medication,2
+Have you seriously consider attempting suicide?,Yes / No,1
+Did you ever plan how you might attempt suicide?,Yes / No,1
+Do you like your job?,Yes / No,1
+How productive do you feel today?,1 / 2 / 3 / 4 / 5 / 6 / 7 / 8 / 9 / 10,7
+What makes you feel less productive today?,Lack of sleep / Many tasks to finish / Imbalanced Diet,7
+What made you feel productive today?,Good sleep / Healthy Meal / Meditation / Excercise,7
+How difficult do you find it to share your opinion/ ideas to your colleagues?,1 / 2 / 3 / 4 / 5 / 6 / 7 / 8 / 9 / 10,7
+How connected do you feel to your colleagues? ,1 / 2 / 3 / 4 / 5 / 6 / 7 / 8 / 9 / 10,3
+Did you enjoy your work today?,1 / 2 / 3 / 4 / 5 / 6 / 7 / 8 / 9 / 10,6
+How do you find your work?,Easy / Moderate / Difficult / Monotonous / Exciting / Stressful,6
+How confident you have been feeling in your capabilities recently?,1 / 2 / 3 / 4 / 5 / 6 / 7 / 8 / 9 / 10,3
+Have you planned well for the next week?,Yes / No,2
+Are you properly aware of Sleep Hygiene?,Yes / No,1
+Do you take any sleep aids? ,Yes / No,1
+What is the room temperature that you have set for night?,15-18 C / 19-22 C / 23-26 C / 27-30 C,3
+How much you know about How Sleep Works?,1 / 2 / 3 / 4 / 5 / 6 / 7 / 8 / 9 / 10,1
+How fresh do you feel just after you wake up?,1 / 2 / 3 / 4 / 5 / 6 / 7 / 8 / 9 / 10,3
+Do you do exercise within 1 hour before sleeping?,Yes / No,1
+Do you eat dinner within 2 hours before sleeping?,Yes / No,1
+On what would you generally sleep most? ,Soft mattress / Hard mattress / floor / street ,1
+Do you use pillow while sleeping?,Yes / No,1
+What kind of pillow you use?,Soft pillow / Hard pillow,1
+Do you sleep alone?,Yes / No,1
+With whom do you sleep?,Human / Dog / Cat / Other Animal,1
+How old are you?,0-12 years / 12-18 years / 18-35 years / 35-55 years / 55-70 years / 70-90 years / 90+ years,1
+Did you get insufficient sleep?,Yes / No,3
+Do you have any sleep disorder?,Yes / No,1
+Do you face sleep disruptions?,Yes / No,2
+Are you properly aware of the impact of insufficient sleep?,Yes / No,1
+How do you rate your present mental health condition?,1 / 2 / 3 / 4 / 5 / 6 / 7 / 8 / 9 / 10,3
+How much do you remember your night dreams after wakeup?,A lot / Little bit / Not at all,2
+Do you skip breakfast more than once a week? ,Yes / No,1
+Do you skip lunch more than once a week? ,Yes / No,1
+Do you skip evening meals more than once a week? ,Yes / No,1
+Do you skip meals and snack instead on most days? ,Yes / No,1
+Do you skip breakfast more than once a week? ,Yes / No,1
+Do you skip lunch more than once a week? ,Yes / No,1
+Do you skip evening meals more than once a week? ,Yes / No,1
+Do you skip meals and snack instead on most days? ,Yes / No,1
+Not including plain water were there any other times yesterday when you were drinking any beverages?,Yes / No,3
+Were any of the beverages soft drinks such as cola root beer or ginger ale?,Yes / No,3
+Was the soft drink diet regular or did you have both kinds?,Diet / Regular / Both,3
+Are you the person who usually does the grocery shopping in your household?,Yes / No,3
+Are you the person who usually prepares the meals in your household?,Yes / No,2
+In the last 7 days did you prepare any meals with meat poultry or seafood?,Yes / No,2
+In the last 7 days did you drink or serve unpasteurized or raw milk?,Yes / No,1
+How many servings of fruits or vegetables do you eat everyday? ( In a typical day averaging workdays and weekends. Select 5 if more than 5),0 / 1 / 2 / 3 / 4 / 5 ,
+How many new places do you visit? (Over a period of 12 months. Include new states new cities as well as museum places of interest and parks in your neighborhood.),0 / 1 / 2 / 3 / 4 / 5 / 6 / 7 / 8 / 9 / 10,
+How many times do you donate your time or money to good causes? (Over a period of 12 months. Include financial donation your time contribution fundraising volunteering serving your country and the poor ...),0 / 1 / 2 / 3 / 4 / 5 ,
+How many recognitions have you received in your life? (Significant public recognitions validating a personal level of expertise and engagement E.g.: diploma degree certificate accreditation award prize published book presentation at major conference medals cups titles...),0 / 1 / 2 / 3 / 4 / 5 / 6 / 7 / 8 / 9 / 10,
+How many days of vacation do you typically lose every year? (Unused vacation days lost or carried forward into the following year. Or because of work stress during your vacation.),0 / 1 / 2 / 3 / 4 / 5 / 6 / 7 / 8 / 9 / 10,
+With how many people do you interact with during a typical day? (True interactions and dialogues at home at work at the gym ... Average of workdays and weekends),0 / 1 / 2 / 3 / 4 / 5 / 6 / 7 / 8 / 9 / 10,
+In a typical week how many times do you have the opportunity to think about yourself? ( Include meditation praying and relaxation activities such as fitness walking in a park or lunch breaks.),0 / 1 / 2 / 3 / 4 / 5 / 6 / 7 / 8 / 9 / 10,
+How much stress do you typically experience everyday? (At work or at home due to the environment (noise pollution insecurity...) your co-workers or boss or because of tragic events such as divorce job loss serious illness loss of family or friends... In average over 12 months.),0 / 1 / 2 / 3 / 4 / 5 ,
+How many hours do you spend everyday doing what you are passionate about? ( Daily hours spent doing what you are passionate and dreaming about and/or contributing to a greater cause: health education peace society development ...),0 / 1 / 2 / 3 / 4 / 5 / 6 / 7 / 8 / 9 / 10,
+How many steps (in thousands) do you typically walk everyday? (Thousand steps daily average over multiple days including work days and week-end.),0 / 1 / 2 / 3 / 4 / 5 / 6 / 7 / 8 / 9 / 10,
+How many remarkable achievements are you proud of? (Over the last 12 months personal achievements known to your family close friends or co-workers such as: running a marathon or important race birth successful kids new house or major renovation major success at work opening a new business ...),0 / 1 / 2 / 3 / 4 / 5 / 6 / 7 / 8 / 9 / 10,
+For how many years ahead is your life vision very clear for? (For instance illustrated in a vision board detailed in a personal journal or openly discussed with your spouse or close friends.),0 / 1 / 2 / 3 / 4 / 5 / 6 / 7 / 8 / 9 / 10,
+In a typical day how many hours do you experience flow? ('Flow' is defined as the mental state in which you are fully immersed in performing an activity. You then experience a feeling of energized focus full involvement and enjoyment in the process of this activity. Watch the youtube video from Mihaly Csikszentmihalyi Flow the secret to happiness),0 / 1 / 2 / 3 / 4 / 5 / 6 / 7 / 8 / 9 / 10,
+How often do you shout or sulk at somebody?  In a typical week. Expressing your negative emotions in an active or passive manner.),0 / 1 / 2 / 3 / 4 / 5 / 6 / 7 / 8 / 9 / 10,
+How well do you complete your weekly to-do lists? (Include your weekly goals work- and personal-related tasks. On a scale of 0 = not at all to 10 = very well.),0 / 1 / 2 / 3 / 4 / 5 / 6 / 7 / 8 / 9 / 10,
+How many people are very close to you? (i.e. close family and friends ready to provide you with a long-term unconditional support.),0 / 1 / 2 / 3 / 4 / 5 / 6 / 7 / 8 / 9 / 10,
+How many people do you help achieve a better life? (A reflection of your altruism or selflessness (see the TED video from Matthieu Ricard 'How to let altruism be your guide') e.g.: caring for your family actively supporting a friend mentoring coaching developing or promoting a co-worker ... Over a period of 12 months.),0 / 1 / 2 / 3 / 4 / 5 / 6 / 7 / 8 / 9 / 10,
+About how many hours do you typically sleep? (Over the course of a typical working week including week-end),0 / 1 / 2 / 3 / 4 / 5 / 6 / 7 / 8 / 9 / 10,
