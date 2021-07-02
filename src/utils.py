@@ -7,7 +7,12 @@ DATABASE_DIR = 'database'
 USERID_DATABASE_PATH = join(DATABASE_DIR,'database_users.csv')
 USER_ANSWERS_DIR = join(DATABASE_DIR,'user_answers')
 
+
 #def generate_next_question(user_id):
+
+#def run_initial_questions(user_id):
+    
+
 
 def save_userid_to_csv(user_id):
     # save userID
