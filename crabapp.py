@@ -19,6 +19,7 @@ from linebot.models import (
 
 # custum srcs
 from src.vars import *
+from src.utils import *
 
 #
 # BODY
@@ -59,24 +60,15 @@ def message_text(event):
     
     if message == 'start':
         print(message)
-        # save userID
-        user_id = event.source.user_id
-        now = datetime.now()
-        current_time = now.strftime("%d/%m/%Y %H:%M:%S")
-        print(user_id + "\n\n\n")
         
-        # open the file in the write mode
-        f = open('reply_message/database_users.csv', 'a', newline="")
-
-        # create the csv writer
-        writer = csv.writer(f)
-        # write a row to the csv file
-        writer.writerow([user_id])
-    
-        # close the file
-        f.close()
-            
-def generate_next_question(user_id):
+        user_id = event.source.user_id
+        
+        save_userid_to_csv(user_id)
+        
+        
+        
+        # create unique user database
+        #f = open('reply_message/database_users.csv', 'a', newline="")
     
 
             
@@ -87,7 +79,7 @@ class PushMesseging(Thread):
         self.start()
     
     def run(self):
-        
+        print('HW12')
     """
         while True:
             time.sleep(7)
