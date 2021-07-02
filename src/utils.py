@@ -6,7 +6,7 @@ from datetime import datetime
 from threading import Timer
 
 from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage,
+    MessageEvent, TextMessage, TextSendMessage, QuickReplyButton, MessageAction, QuickReply
 )
 #============================================================
 # Hyperparameters
@@ -21,7 +21,6 @@ ALL_QUESTION_DIR = join(DATABASE_DIR, ALL_QUESTIONS)
 #============================================================
 
 #def generate_next_question(user_id):
-#def generate_quick_reply(user_id, question, answers_list):
 
 def init_repeated_message(func, args):
     line_bot_api, time_sec = args
@@ -40,7 +39,7 @@ def send_random_question_to_all(line_bot_api, time_sec):
     idx = np.random.randint(len(init_qa))
     print(init_qa.iloc[idx].values)
     
-    question, answers = init_qa.iloc[idx].values[1:]
+    question, answers = init_qa.iloc[idx].values[:1]
     
     for user_id in users:
     # TODO: here must be quick replys
@@ -51,7 +50,7 @@ def send_random_question_to_all(line_bot_api, time_sec):
     
         line_bot_api.push_message(
             user_id, 
-            TextSendMessage(text=question))
+            generate_quick_reply(question, answers))
             
         print(user_id, question, answers)
 
@@ -63,7 +62,7 @@ def save_init_reply(line_bot_api, user_id, msg, APP_MODE):
     user_an = pd.read_csv(join(USER_ANSWERS_DIR,f'{user_id}_answers.csv'))
     num_user_answers = len(user_an)
     
-    answer = msgs
+    answer = msg
     question = init_qa.iloc[num_user_answers][0]
     
     write_userid_answers_csv(user_id, question, answer)
@@ -98,11 +97,16 @@ def run_initial_questions(line_bot_api, user_id):
     
     # TODO: fix for multiple choice questions
     question, answers = init_qa.iloc[num_user_answers].values
-    
-    line_bot_api.push_message(
+
+    if("None" in answers):
+            line_bot_api.push_message(
                 user_id, 
-                TextSendMessage(text=question))
-    
+                TextSendMessage(text=question))        
+    else:  
+        line_bot_api.push_message(
+                    user_id, 
+                    generate_quick_reply(question, answers))
+        
   
 def save_userid_to_csv(user_id):
     # save userID
