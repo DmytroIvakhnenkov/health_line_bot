@@ -24,6 +24,8 @@ from src.utils import *
 #
 # BODY
 #
+# This will help to distinguish between initial/general use 
+APP_MODE = 'init' # 'general'
 
 app = Flask(__name__)
 line_bot_api = LineBotApi(channel_access_token)
@@ -58,15 +60,25 @@ def message_text(event):
     print(event)
     user = line_bot_api.get_profile(event.source.user_id)
     
-    if message == 'start':
+    if message == '\start':
         print(message)
         
         user_id = event.source.user_id
         
         save_userid_to_csv(user_id)
         create_userid_answers_csv(user_id)
-        run_initial_questions(user_id)
-
+        run_initial_questions(
+                line_bot_api, 
+                user_id)
+    elif APP_MODE == 'init':
+        print(message)
+        user_id = event.source.user_id
+        
+        save_init_reply(line_bot_api, 
+                        user_id, 
+                        message)
+        
+        
             
 class PushMesseging(Thread):
     def __init__(self):
