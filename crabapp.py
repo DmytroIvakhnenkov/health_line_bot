@@ -64,12 +64,7 @@ def message_text(event):
         user_id = event.source.user_id
         
         save_userid_to_csv(user_id)
-        
-        
-        
-        # create unique user database
-        #f = open('reply_message/database_users.csv', 'a', newline="")
-    
+        create_userid_answers_csv(user_id)
 
             
 class PushMesseging(Thread):
