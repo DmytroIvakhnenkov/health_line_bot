@@ -63,7 +63,7 @@ def message_text(event):
     message = event.message.text
     
     if user_id not in USERS_MODES.keys():
-        if message == 'start':
+        if message.lower() == 'start':
             generate_new_user(user_id)
             run_initial_questions(line_bot_api, user_id)
             USERS_MODES[user_id] = 'init'
@@ -77,7 +77,9 @@ def message_text(event):
             USERS_MODES[user_id] = new_mode
     
     elif USERS_MODES[user_id] == 'waiting':
-        print(message)
+        save_repeat_reply(user_id, message)
+        
+        USERS_MODES[user_id] = 'default'
         
     else:
         print('ERROR!!!!')

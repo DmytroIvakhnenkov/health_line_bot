@@ -1,9 +1,16 @@
 questions,answers
-What is your age?,H
-What is your weight?,J
-What is your height?,J
-Do you smoke?,K
-Do you consume alcohol?,K
-If you have any heath conditions please write them down. We will use them to adjust our predictions.,K
-What we can help with?,weight-gain
-In the last 7 days did you prepare any meals with meat poultry or seafood?,
+What is your age?,S
+What is your weight?,F
+What is your height?,F
+Do you smoke?,G
+Do you consume alcohol?,R
+If you have any heath conditions please write them down. We will use them to adjust our predictions.,E
+What can we help you with?,exercise
+How do you feel today? ,Energetic
+Did you ever plan how you might attempt suicide?,No
+How bothered have you felt about thoughts that you've let yourself or others down?,Sometimes
+How do you find your work?,Exciting
+How productive do you feel today?,9
+Do you skip lunch more than once a week? ,No
+Are you the person who usually does the grocery shopping in your household?,No
+How confident you have been feeling in your capabilities recently?,

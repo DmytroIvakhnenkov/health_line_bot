@@ -41,11 +41,8 @@ def send_random_question(line_bot_api, user_id, time_sec):
     
     question, answers = init_qa.iloc[idx].values[:2]
     
-    #for user_id in users:
-        # put question to user database
-    write_userid_answers_csv(
-        user_id, 
-        question, answer='')
+    # put question to user database
+    save_repeat_question(user_id, question)
 
     msg = generate_quick_reply(question, answers)
     #print(msg)
@@ -77,6 +74,21 @@ def save_init_reply(line_bot_api, user_id, msg):
         print('\t Initial questions finish.')
         return 'default'
 
+def save_repeat_reply(user_id, answer):
+    filename = join(USER_ANSWERS_DIR, f'{user_id}_answers.csv')
+    
+    f = open(filename, 'a')
+    
+    f.write(answer.replace(',', ' ') + '\n')
+    f.close()
+    
+def save_repeat_question(user_id, question):
+    filename = join(USER_ANSWERS_DIR, f'{user_id}_answers.csv')
+    
+    f = open(filename, 'a')
+    
+    f.write(question + ',')
+    f.close()
 
 def run_initial_questions(line_bot_api, user_id):
     # read init questions
@@ -120,7 +132,7 @@ def save_userid_to_csv(user_id):
     #print(user_id + "\n\n\n")
     
     # open the file in the write mode
-    f = open(USERID_DATABASE_PATH, 'w', newline="")
+    f = open(USERID_DATABASE_PATH, 'a', newline="")
 
     # create the csv writer
     writer = csv.writer(f)
