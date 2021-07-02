@@ -20,7 +20,9 @@ INITIAL_QUESTION_DIR = join(DATABASE_DIR,'database_initial_questions.csv')
 ALL_QUESTION_DIR = join(DATABASE_DIR, ALL_QUESTIONS)
 #============================================================
 
-#def generate_next_question(user_id):
+#
+# INITS
+#
 
 def init_repeated_message(func, args):
     _, _,time_sec = args
@@ -29,9 +31,27 @@ def init_repeated_message(func, args):
         func,
         args)
     srqta_timer.start()
+    
+def create_userid_answers_csv(user_id):
+    # create unique user database
+    filename = join(USER_ANSWERS_DIR, f'{user_id}_answers.csv')
+    print(filename)
+    f = open(filename, 'w+', newline="")
+    writer = csv.writer(f)
+    writer.writerow(['questions', 'answers', 'timestamp'])
+    f.close()
 
+
+#
+# SENDERS
+#
 
 def send_random_question(line_bot_api, user_id, time_sec):
+    '''
+    line_bot_api - object of class LineBotApi
+    user_id - ID of user you want to send question to
+    time_sec - delay before sending
+    '''
     print(f'\t send_random_question to {user_id}')
     init_qa = pd.read_csv(ALL_QUESTION_DIR)
     #users = pd.read_csv(USERID_DATABASE_PATH)
@@ -54,8 +74,23 @@ def send_random_question(line_bot_api, user_id, time_sec):
 
     #init_repeated_message(time_sec, line_bot_api, send_random_question_to_all)
 
+def send_timebased_questions(line_bot_api, user_id, time_sec):
+    '''
+    line_bot_api - object of class LineBotApi
+    user_id - ID of user you want to send question to
+    time_sec - delay before sending
+    '''
+    time_windows = {'morning':[8,11],
+                    'day':[12,15],
+                    'night':[17,20]}
+                    
+    # TODO: FINISH THIS
 
-def save_init_reply(line_bot_api, user_id, msg):
+#
+# SAVEERS
+#
+
+def save_init_reply(line_bot_api, user_id, msg, timestep):
     global APP_MODE
     init_qa = pd.read_csv(INITIAL_QUESTION_DIR)
     user_an = pd.read_csv(join(USER_ANSWERS_DIR,f'{user_id}_answers.csv'))
@@ -64,7 +99,7 @@ def save_init_reply(line_bot_api, user_id, msg):
     answer = msg
     question = init_qa.iloc[num_user_answers][0]
     
-    write_userid_answers_csv(user_id, question, answer)
+    save_userid_answers_csv(user_id, question, answer, timestep)
     
     if num_user_answers+1 < len(init_qa):
         print('Initial questions...')
@@ -74,12 +109,29 @@ def save_init_reply(line_bot_api, user_id, msg):
         print('\t Initial questions finish.')
         return 'default'
 
-def save_repeat_reply(user_id, answer):
+def save_repeat_reply(user_id, answer, timestep):
     filename = join(USER_ANSWERS_DIR, f'{user_id}_answers.csv')
     
     f = open(filename, 'a')
     
-    f.write(answer.replace(',', ' ') + '\n')
+    f.write(answer.replace(',', ' ') +','+ str(timestep) + '\n')
+    f.close()
+    
+def save_userid_to_csv(user_id):
+    # save userID
+    # TODO: must be no duplicates for ids in database_users
+    now = datetime.now()
+    current_time = now.strftime("%d/%m/%Y %H:%M:%S")
+    #print(user_id + "\n\n\n")
+    
+    # open the file in the write mode
+    f = open(USERID_DATABASE_PATH, 'a', newline="")
+
+    # create the csv writer
+    writer = csv.writer(f)
+    # write a row to the csv file
+    writer.writerow([user_id])
+    # close the file
     f.close()
     
 def save_repeat_question(user_id, question):
@@ -89,6 +141,18 @@ def save_repeat_question(user_id, question):
     
     f.write(question + ',')
     f.close()
+
+def save_userid_answers_csv(user_id, question, answer, timestep):
+    filename = join(USER_ANSWERS_DIR, f'{user_id}_answers.csv')
+    
+    f = open(filename, 'a', newline="")
+    writer = csv.writer(f)
+    writer.writerow([question, answer, timestep])
+    f.close()
+    
+#
+# RUNNERS
+#
 
 def run_initial_questions(line_bot_api, user_id):
     # read init questions
@@ -122,47 +186,13 @@ def run_initial_questions(line_bot_api, user_id):
         line_bot_api.push_message(
                     user_id, 
                     generate_quick_reply(question, answers))
-        
+
   
-def save_userid_to_csv(user_id):
-    # save userID
-    # TODO: must be no duplicates for ids in database_users
-    now = datetime.now()
-    current_time = now.strftime("%d/%m/%Y %H:%M:%S")
-    #print(user_id + "\n\n\n")
-    
-    # open the file in the write mode
-    f = open(USERID_DATABASE_PATH, 'a', newline="")
+#
+# GENERATORS
+#
 
-    # create the csv writer
-    writer = csv.writer(f)
-    # write a row to the csv file
-    writer.writerow([user_id])
-    # close the file
-    f.close()
-    
-    
-def create_userid_answers_csv(user_id):
-    # create unique user database
-    filename = join(USER_ANSWERS_DIR, f'{user_id}_answers.csv')
-    print(filename)
-    f = open(filename, 'w+', newline="")
-    writer = csv.writer(f)
-    writer.writerow(['questions', 'answers'])
-    f.close()
-    
-    
-def write_userid_answers_csv(user_id, question, answer):
-    filename = join(USER_ANSWERS_DIR, f'{user_id}_answers.csv')
-    
-    f = open(filename, 'a', newline="")
-    writer = csv.writer(f)
-    writer.writerow([question, answer])
-    f.close()
-    
-    
 def generate_quick_reply(question, answers):
-
     # getting the answers to the question
     answers = answers.split(" / ")
 
@@ -175,8 +205,12 @@ def generate_quick_reply(question, answers):
                                    quick_reply=QuickReply(items=my_items))
     
     return text_message
-    
-    
+
 def generate_new_user(user_id):
     save_userid_to_csv(user_id)
     create_userid_answers_csv(user_id)
+    
+
+#
+# OTHERS
+#

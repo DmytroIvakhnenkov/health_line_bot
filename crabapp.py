@@ -21,15 +21,14 @@ from linebot.models import (
 from src.vars import *
 from src.utils import *
 
-
 #============================================================
 # Hyperparameters
 app = Flask(__name__)
 line_bot_api = LineBotApi(channel_access_token)
 handler = WebhookHandler(channel_secret)
-# This will help to distinguish between init/default use 
-#APP_MODE = 'init' # 'init', 'default', 'waiting'
 
+# This will help to distinguish between init/default use 
+# Existing modes: 'init', 'default', 'waiting'
 USERS_MODES = {}
 #============================================================
 
@@ -58,9 +57,10 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def message_text(event):
     global APP_MODE
-    
+
     user_id = event.source.user_id
     message = event.message.text
+    timestep = event.timestamp
     
     if user_id not in USERS_MODES.keys():
         if message.lower() == 'start':
@@ -72,12 +72,13 @@ def message_text(event):
         new_mode = save_init_reply(
             line_bot_api, 
             user_id, 
-            message)
+            message,
+            timestep)
         if new_mode:
             USERS_MODES[user_id] = new_mode
     
     elif USERS_MODES[user_id] == 'waiting':
-        save_repeat_reply(user_id, message)
+        save_repeat_reply(user_id, message, timestep)
         
         USERS_MODES[user_id] = 'default'
         

@@ -1,16 +1,10 @@
-questions,answers
-What is your age?,S
-What is your weight?,F
-What is your height?,F
-Do you smoke?,G
-Do you consume alcohol?,R
-If you have any heath conditions please write them down. We will use them to adjust our predictions.,E
-What can we help you with?,exercise
-How do you feel today? ,Energetic
-Did you ever plan how you might attempt suicide?,No
-How bothered have you felt about thoughts that you've let yourself or others down?,Sometimes
-How do you find your work?,Exciting
-How productive do you feel today?,9
-Do you skip lunch more than once a week? ,No
-Are you the person who usually does the grocery shopping in your household?,No
-How confident you have been feeling in your capabilities recently?,
+questions,answers,timestamp
+What is your age?,S,1625216503153
+What is your weight?,C,1625216504562
+What is your height?,D,1625216505901
+Do you smoke?,G,1625216507233
+Do you consume alcohol?,E,1625216509407
+If you have any heath conditions please write them down. We will use them to adjust our predictions.,E,1625216512037
+What can we help you with?,exercise,1625216514272
+How do you feel today? ,Lazy,1625216527670
+Do you skip breakfast more than once a week? ,
