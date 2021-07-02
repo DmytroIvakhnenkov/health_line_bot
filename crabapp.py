@@ -65,7 +65,7 @@ def message_text(event):
         
         save_userid_to_csv(user_id)
         create_userid_answers_csv(user_id)
-        #run_initial_questions(user_id)
+        run_initial_questions(user_id)
 
             
 class PushMesseging(Thread):
