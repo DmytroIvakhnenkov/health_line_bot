@@ -63,7 +63,7 @@ def message_text(event):
     timestep = event.timestamp
     
     if user_id not in USERS_MODES.keys():
-        if message.lower() == 'start':
+        if 'start' in message.lower():
             generate_new_user(user_id)
             run_initial_questions(line_bot_api, user_id)
             USERS_MODES[user_id] = 'init'
@@ -101,7 +101,7 @@ class PushMesseging(Thread):
         # ask random question every 30 sec, but only if previus answered
         #init_repeated_message()
         
-        time_sec = 10
+        time_sec = 2
         
         while True:
             for user_id, mode in USERS_MODES.items():
