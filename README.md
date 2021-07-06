@@ -14,3 +14,4 @@ Replace *token* and *secret* from your LINE bot credentials in `src/vars.py`. Do
 Download this repo, and run: `python crabapp.py`
 
 # Demo
+<img src="./fig/IMG_2263.gif" width="400">
