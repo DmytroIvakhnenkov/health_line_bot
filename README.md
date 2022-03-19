@@ -1,1 +1,1 @@
-Provide medical support using Line Chatbot
+Provide medical support using Line Chatbot API
