@@ -21,14 +21,15 @@ from linebot.models import (
 from src.vars import *
 from src.utils import *
 
-
 #============================================================
 # Hyperparameters
 app = Flask(__name__)
 line_bot_api = LineBotApi(channel_access_token)
 handler = WebhookHandler(channel_secret)
+
 # This will help to distinguish between init/default use 
-APP_MODE = 'init' # 'default'
+# Existing modes: 'init', 'default', 'waiting'
+USERS_MODES = {}
 #============================================================
 
 #
@@ -55,34 +56,34 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def message_text(event):
-    print(event.source.user_id)
+    global APP_MODE
+
+    user_id = event.source.user_id
     message = event.message.text
+    timestep = event.timestamp
     
-    print(event)
-    user = line_bot_api.get_profile(event.source.user_id)
+    if user_id not in USERS_MODES.keys():
+        if 'start' in message.lower():
+            generate_new_user(user_id)
+            run_initial_questions(line_bot_api, user_id)
+            USERS_MODES[user_id] = 'init'
+            
+    elif USERS_MODES[user_id] == 'init':
+        new_mode = save_init_reply(
+            line_bot_api, 
+            user_id, 
+            message,
+            timestep)
+        if new_mode:
+            USERS_MODES[user_id] = new_mode
     
-    if message == '\start':
-        user_id = event.source.user_id
+    elif USERS_MODES[user_id] == 'waiting':
+        save_repeat_reply(user_id, message, timestep)
         
-        save_userid_to_csv(user_id)
-        create_userid_answers_csv(user_id)
-        run_initial_questions(
-                line_bot_api, 
-                user_id)
-    elif APP_MODE == 'init':
-        user_id = event.source.user_id
+        USERS_MODES[user_id] = 'default'
         
-        save_init_reply(line_bot_api, 
-                        user_id, 
-                        message.
-                        APP_MODE)
-    elif APP_MODE == 'default':
-        # check 
-        print('default')
-    
     else:
-        print(message)
-        print('ELSE')
+        print('ERROR!!!!')
 
 
 class PushMesseging(Thread):
@@ -92,6 +93,7 @@ class PushMesseging(Thread):
         self.start()
     
     def run(self):
+        global USERS_MODES
         # TODO:
         # here we must specify conditions for further questions or notifications.
         print('PushMesseging running...')
@@ -99,39 +101,22 @@ class PushMesseging(Thread):
         # ask random question every 30 sec, but only if previus answered
         #init_repeated_message()
         
-        time_sec = 10
-        args = [line_bot_api, time_sec]
-        init_repeated_message(
-            send_random_question_to_all, args
-        )
+        time_sec = 2
         
-        
-        
-        
-        
-    """
         while True:
-            time.sleep(7)
-            
-            user_ids = []
-            
-            with open('reply_message/database_users.csv', 'r') as csvfile:
-                spamreader = csv.reader(csvfile, delimiter=',')
-                for row in spamreader:
-                    user_ids += [row[0]]
-        
-            if user_ids != []:
-                print(user_ids)
-                for user_id in user_ids:
-                    line_bot_api.push_message(
-                        user_id,
-                        TextMessage(text='ur mom gay'))
+            for user_id, mode in USERS_MODES.items():
+                if mode == 'default':
+                    args = [line_bot_api, user_id, time_sec]
+                    init_repeated_message(
+                        send_random_question, args
+                    )
+                    USERS_MODES[user_id] = 'waiting'
             else:
-                print('No user ids')
-            """
+                pass
+            time.sleep(1)
+
 
 if __name__ == "__main__":
-    
     PushMesseging()
     
     app.run(host='0.0.0.0', port=5000, debug=True)
